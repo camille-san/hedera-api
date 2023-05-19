@@ -1,0 +1,1 @@
+docker build -t kosmocat/hedera . --no-cache
