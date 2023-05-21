@@ -4,6 +4,8 @@ import io.kosmocat.hedera.entities.expenses.ExpenseRule;
 import io.kosmocat.hedera.repositories.expenses.ExpenseRuleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,27 +26,28 @@ public class ExpenseRuleRestController {
     private final ExpenseRuleRepository expenseRuleRepository;
 
     @PostMapping
-    public ExpenseRule addNew(@RequestBody ExpenseRule expenseRule) {
+    public ResponseEntity<ExpenseRule> addNew(@RequestBody ExpenseRule expenseRule) {
         log.info("[REST] Adding new expense rule: {}", expenseRule);
-        return expenseRuleRepository.save(expenseRule);
+        return new ResponseEntity(expenseRuleRepository.save(expenseRule), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/user/{userId}/all")
-    public List<ExpenseRule> getAllFromUser(@PathVariable Long userId) {
+    public ResponseEntity<List<ExpenseRule>> getAllFromUser(@PathVariable Long userId) {
         log.info("[REST] Get all expense rules of user: {}", userId);
-        return expenseRuleRepository.findAllByUserId(userId);
+        return new ResponseEntity(expenseRuleRepository.findAllByUserId(userId), HttpStatus.OK);
     }
 
     @PutMapping
-    public ExpenseRule update(@RequestBody ExpenseRule expenseRule) {
+    public ResponseEntity<ExpenseRule> update(@RequestBody ExpenseRule expenseRule) {
         log.info("[REST] Updating expense rule: {}", expenseRule);
-        return expenseRuleRepository.save(expenseRule);
+        return new ResponseEntity(expenseRuleRepository.save(expenseRule), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         log.info("[REST] Deleting expense rule id: {}", id);
         expenseRuleRepository.deleteById(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

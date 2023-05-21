@@ -4,6 +4,8 @@ import io.kosmocat.hedera.entities.users.User;
 import io.kosmocat.hedera.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +20,9 @@ public class UserRestController {
     private final UserService userService;
 
     @PostMapping
-    public User addNew(@RequestBody User user) {
+    public ResponseEntity<User> addNew(@RequestBody User user) {
         log.info("[REST] Adding new user: {}", user.getEmail());
-        return userService.addNewUser(user);
+        return new ResponseEntity<>(userService.addNewUser(user), HttpStatus.CREATED);
     }
 
 }

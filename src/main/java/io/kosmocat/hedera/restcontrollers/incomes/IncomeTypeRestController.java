@@ -4,6 +4,8 @@ import io.kosmocat.hedera.entities.incomes.IncomeType;
 import io.kosmocat.hedera.repositories.incomes.IncomeTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,27 +26,28 @@ public class IncomeTypeRestController {
     private final IncomeTypeRepository incomeTypeRepository;
 
     @PostMapping
-    public IncomeType addNew(@RequestBody IncomeType incomeType) {
+    public ResponseEntity<IncomeType> addNew(@RequestBody IncomeType incomeType) {
         log.info("[REST] Adding new income type: {}", incomeType);
-        return incomeTypeRepository.save(incomeType);
+        return new ResponseEntity(incomeTypeRepository.save(incomeType), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/user/{userId}/all")
-    public List<IncomeType> getAllFromUser(@PathVariable Long userId) {
+    public ResponseEntity<List<IncomeType>> getAllFromUser(@PathVariable Long userId) {
         log.info("[REST] Get all income types of user: {}", userId);
-        return incomeTypeRepository.findAllByUserId(userId);
+        return new ResponseEntity(incomeTypeRepository.findAllByUserId(userId), HttpStatus.OK);
     }
 
     @PutMapping
-    public IncomeType update(@RequestBody IncomeType incomeType) {
+    public ResponseEntity<IncomeType> update(@RequestBody IncomeType incomeType) {
         log.info("[REST] Updating income type: {}", incomeType);
-        return incomeTypeRepository.save(incomeType);
+        return new ResponseEntity(incomeTypeRepository.save(incomeType), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         log.info("[REST] Deleting income type id: {}", id);
         incomeTypeRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

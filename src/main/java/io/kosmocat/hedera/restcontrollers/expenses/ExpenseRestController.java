@@ -4,6 +4,8 @@ import io.kosmocat.hedera.entities.expenses.Expense;
 import io.kosmocat.hedera.repositories.expenses.ExpenseRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,27 +26,28 @@ public class ExpenseRestController {
     private final ExpenseRepository expenseRepository;
 
     @PostMapping
-    public Expense addNew(@RequestBody Expense expense) {
+    public ResponseEntity<Expense> addNew(@RequestBody Expense expense) {
         log.info("[REST] Adding new expense: {}", expense);
-        return expenseRepository.save(expense);
+        return new ResponseEntity<>(expenseRepository.save(expense), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/user/{userId}/all")
-    public List<Expense> getAllFromUser(@PathVariable Long userId) {
+    public ResponseEntity<List<Expense>> getAllFromUser(@PathVariable Long userId) {
         log.info("[REST] Get all expenses of user: {}", userId);
-        return expenseRepository.findAllByUserId(userId);
+        return new ResponseEntity<>(expenseRepository.findAllByUserId(userId), HttpStatus.OK);
     }
 
     @PutMapping
-    public Expense update(@RequestBody Expense expense) {
+    public ResponseEntity<Expense> update(@RequestBody Expense expense) {
         log.info("[REST] Updating expense: {}", expense);
-        return expenseRepository.save(expense);
+        return new ResponseEntity<>(expenseRepository.save(expense), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         log.info("[REST] Deleting expense id: {}", id);
         expenseRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

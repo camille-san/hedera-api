@@ -4,6 +4,8 @@ import io.kosmocat.hedera.entities.incomes.Income;
 import io.kosmocat.hedera.repositories.incomes.IncomeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,27 +26,28 @@ public class IncomeRestController {
     private final IncomeRepository incomeRepository;
 
     @PostMapping
-    public Income addNew(@RequestBody Income income) {
+    public ResponseEntity<Income> addNew(@RequestBody Income income) {
         log.info("[REST] Adding new income: {}", income);
-        return incomeRepository.save(income);
+        return new ResponseEntity(incomeRepository.save(income), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/user/{userId}/all")
-    public List<Income> getAllFromUser(@PathVariable Long userId) {
+    public ResponseEntity<List<Income>> getAllFromUser(@PathVariable Long userId) {
         log.info("[REST] Get all incomes of user: {}", userId);
-        return incomeRepository.findAllByUserId(userId);
+        return new ResponseEntity(incomeRepository.findAllByUserId(userId), HttpStatus.OK);
     }
 
     @PutMapping
-    public Income update(@RequestBody Income income) {
+    public ResponseEntity<Income> update(@RequestBody Income income) {
         log.info("[REST] Updating income: {}", income);
-        return incomeRepository.save(income);
+        return new ResponseEntity(incomeRepository.save(income), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         log.info("[REST] Deleting income id: {}", id);
         incomeRepository.deleteById(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }

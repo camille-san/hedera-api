@@ -1,9 +1,9 @@
 package io.kosmocat.hedera.restcontrollers;
 
 import io.kosmocat.hedera.entities.Periodicity;
-import io.kosmocat.hedera.entities.expenses.ExpenseType;
-import io.kosmocat.hedera.entities.incomes.IncomeType;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UtilsRestController {
 
     @GetMapping("/periodicities")
-    public Periodicity[] getPeriodicities() {
-        return Periodicity.values();
+    public ResponseEntity<Periodicity[]> getPeriodicities() {
+        return new ResponseEntity<>(Periodicity.values(), HttpStatus.OK);
     }
 
 }

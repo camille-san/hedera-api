@@ -4,6 +4,8 @@ import io.kosmocat.hedera.entities.expenses.ExpenseType;
 import io.kosmocat.hedera.repositories.expenses.ExpenseTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,27 +26,28 @@ public class ExpenseTypeRestController {
     private final ExpenseTypeRepository expenseTypeRepository;
 
     @PostMapping
-    public ExpenseType addNew(@RequestBody ExpenseType expenseType) {
+    public ResponseEntity<ExpenseType> addNew(@RequestBody ExpenseType expenseType) {
         log.info("[REST] Adding new expense type: {}", expenseType);
-        return expenseTypeRepository.save(expenseType);
+        return new ResponseEntity(expenseTypeRepository.save(expenseType), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/user/{userId}/all")
-    public List<ExpenseType> getAllFromUser(@PathVariable Long userId) {
+    public ResponseEntity<List<ExpenseType>> getAllFromUser(@PathVariable Long userId) {
         log.info("[REST] Get all expense types of user: {}", userId);
-        return expenseTypeRepository.findAllByUserId(userId);
+        return new ResponseEntity(expenseTypeRepository.findAllByUserId(userId), HttpStatus.OK);
     }
 
     @PutMapping
-    public ExpenseType update(@RequestBody ExpenseType expenseType) {
+    public ResponseEntity<ExpenseType> update(@RequestBody ExpenseType expenseType) {
         log.info("[REST] Updating expense type: {}", expenseType);
-        return expenseTypeRepository.save(expenseType);
+        return new ResponseEntity(expenseTypeRepository.save(expenseType), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable Long id) {
+    public ResponseEntity delete(@PathVariable Long id) {
         log.info("[REST] Deleting expense type id: {}", id);
         expenseTypeRepository.deleteById(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
 }
