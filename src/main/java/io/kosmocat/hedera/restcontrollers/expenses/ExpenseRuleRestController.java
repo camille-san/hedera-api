@@ -28,26 +28,26 @@ public class ExpenseRuleRestController {
     @PostMapping
     public ResponseEntity<ExpenseRule> addNew(@RequestBody ExpenseRule expenseRule) {
         log.info("[REST] Adding new expense rule: {}", expenseRule);
-        return new ResponseEntity(expenseRuleRepository.save(expenseRule), HttpStatus.CREATED);
+        return new ResponseEntity<>(expenseRuleRepository.save(expenseRule), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/user/{userId}/all")
     public ResponseEntity<List<ExpenseRule>> getAllFromUser(@PathVariable Long userId) {
         log.info("[REST] Get all expense rules of user: {}", userId);
-        return new ResponseEntity(expenseRuleRepository.findAllByUserId(userId), HttpStatus.OK);
+        return new ResponseEntity<>(expenseRuleRepository.findAllByUserId(userId), HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<ExpenseRule> update(@RequestBody ExpenseRule expenseRule) {
         log.info("[REST] Updating expense rule: {}", expenseRule);
-        return new ResponseEntity(expenseRuleRepository.save(expenseRule), HttpStatus.OK);
+        return new ResponseEntity<>(expenseRuleRepository.save(expenseRule), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         log.info("[REST] Deleting expense rule id: {}", id);
         expenseRuleRepository.deleteById(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

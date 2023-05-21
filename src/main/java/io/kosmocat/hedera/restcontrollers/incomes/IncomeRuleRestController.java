@@ -28,26 +28,26 @@ public class IncomeRuleRestController {
     @PostMapping
     public ResponseEntity<IncomeRule> addNew(@RequestBody IncomeRule incomeRule) {
         log.info("[REST] Adding new income rule: {}", incomeRule);
-        return new ResponseEntity(incomeRuleRepository.save(incomeRule), HttpStatus.CREATED);
+        return new ResponseEntity<>(incomeRuleRepository.save(incomeRule), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/user/{userId}/all")
     public ResponseEntity<List<IncomeRule>> getAllFromUser(@PathVariable Long userId) {
         log.info("[REST] Get all income rules of user: {}", userId);
-        return new ResponseEntity(incomeRuleRepository.findAllByUserId(userId), HttpStatus.OK);
+        return new ResponseEntity<>(incomeRuleRepository.findAllByUserId(userId), HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<IncomeRule> update(@RequestBody IncomeRule incomeRule) {
         log.info("[REST] Updating income rule: {}", incomeRule);
-        return new ResponseEntity(incomeRuleRepository.save(incomeRule), HttpStatus.OK);
+        return new ResponseEntity<>(incomeRuleRepository.save(incomeRule), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         log.info("[REST] Deleting income rule id: {}", id);
         incomeRuleRepository.deleteById(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

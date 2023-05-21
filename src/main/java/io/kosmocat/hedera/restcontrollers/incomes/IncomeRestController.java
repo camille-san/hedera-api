@@ -28,26 +28,26 @@ public class IncomeRestController {
     @PostMapping
     public ResponseEntity<Income> addNew(@RequestBody Income income) {
         log.info("[REST] Adding new income: {}", income);
-        return new ResponseEntity(incomeRepository.save(income), HttpStatus.CREATED);
+        return new ResponseEntity<>(incomeRepository.save(income), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/user/{userId}/all")
     public ResponseEntity<List<Income>> getAllFromUser(@PathVariable Long userId) {
         log.info("[REST] Get all incomes of user: {}", userId);
-        return new ResponseEntity(incomeRepository.findAllByUserId(userId), HttpStatus.OK);
+        return new ResponseEntity<>(incomeRepository.findAllByUserId(userId), HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<Income> update(@RequestBody Income income) {
         log.info("[REST] Updating income: {}", income);
-        return new ResponseEntity(incomeRepository.save(income), HttpStatus.OK);
+        return new ResponseEntity<>(incomeRepository.save(income), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         log.info("[REST] Deleting income id: {}", id);
         incomeRepository.deleteById(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

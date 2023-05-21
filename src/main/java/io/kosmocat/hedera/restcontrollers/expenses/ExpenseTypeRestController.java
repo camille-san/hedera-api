@@ -28,26 +28,26 @@ public class ExpenseTypeRestController {
     @PostMapping
     public ResponseEntity<ExpenseType> addNew(@RequestBody ExpenseType expenseType) {
         log.info("[REST] Adding new expense type: {}", expenseType);
-        return new ResponseEntity(expenseTypeRepository.save(expenseType), HttpStatus.CREATED);
+        return new ResponseEntity<>(expenseTypeRepository.save(expenseType), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/user/{userId}/all")
     public ResponseEntity<List<ExpenseType>> getAllFromUser(@PathVariable Long userId) {
         log.info("[REST] Get all expense types of user: {}", userId);
-        return new ResponseEntity(expenseTypeRepository.findAllByUserId(userId), HttpStatus.OK);
+        return new ResponseEntity<>(expenseTypeRepository.findAllByUserId(userId), HttpStatus.OK);
     }
 
     @PutMapping
     public ResponseEntity<ExpenseType> update(@RequestBody ExpenseType expenseType) {
         log.info("[REST] Updating expense type: {}", expenseType);
-        return new ResponseEntity(expenseTypeRepository.save(expenseType), HttpStatus.OK);
+        return new ResponseEntity<>(expenseTypeRepository.save(expenseType), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         log.info("[REST] Deleting expense type id: {}", id);
         expenseTypeRepository.deleteById(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

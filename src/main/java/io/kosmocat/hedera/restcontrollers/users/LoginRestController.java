@@ -24,7 +24,7 @@ public class LoginRestController {
         log.info("[REST] Attempt login user: {}", email);
         User user = userService.checkLogin(email, password);
         log.info("[REST] Login successful for user {}", email);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 }
