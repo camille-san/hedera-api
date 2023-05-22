@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,8 +32,8 @@ public class IncomeTypeRestController {
         return new ResponseEntity<>(incomeTypeRepository.save(incomeType), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/user/{userId}/all")
-    public ResponseEntity<List<IncomeType>> getAllFromUser(@PathVariable Long userId) {
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<IncomeType>> getAllFromUser(@RequestParam Long userId) {
         log.info("[REST] Get all income types of user: {}", userId);
         return new ResponseEntity<>(incomeTypeRepository.findAllByUserId(userId), HttpStatus.OK);
     }

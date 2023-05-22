@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,8 +32,8 @@ public class IncomeRuleRestController {
         return new ResponseEntity<>(incomeRuleRepository.save(incomeRule), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/user/{userId}/all")
-    public ResponseEntity<List<IncomeRule>> getAllFromUser(@PathVariable Long userId) {
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<IncomeRule>> getAllFromUser(@RequestParam Long userId) {
         log.info("[REST] Get all income rules of user: {}", userId);
         return new ResponseEntity<>(incomeRuleRepository.findAllByUserId(userId), HttpStatus.OK);
     }

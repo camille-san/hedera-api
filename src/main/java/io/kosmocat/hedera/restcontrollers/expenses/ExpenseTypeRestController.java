@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -31,8 +32,8 @@ public class ExpenseTypeRestController {
         return new ResponseEntity<>(expenseTypeRepository.save(expenseType), HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/user/{userId}/all")
-    public ResponseEntity<List<ExpenseType>> getAllFromUser(@PathVariable Long userId) {
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<ExpenseType>> getAllFromUser(@RequestParam Long userId) {
         log.info("[REST] Get all expense types of user: {}", userId);
         return new ResponseEntity<>(expenseTypeRepository.findAllByUserId(userId), HttpStatus.OK);
     }
